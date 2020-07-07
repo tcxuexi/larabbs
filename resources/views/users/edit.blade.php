@@ -18,7 +18,7 @@
             <input type="hidden" name="_method" value="PUT">
             <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-            @include('layouts._errors')
+            @include('shared._errors')
 
             <div class="form-group">
               <label for="name-field">用户名</label>

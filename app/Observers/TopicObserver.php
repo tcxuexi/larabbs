@@ -35,10 +35,15 @@ class TopicObserver
     {
         // 如slug字段无内容，及使用翻译器对title进行翻译
         if (!$topic->slug) {
-            // $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
+            $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
 
             //推送任务到队列
-            dispatch(new TranslateSlug($topic));
+            // dispatch(new TranslateSlug($topic));
         }
+    }
+
+    public function deleted(Topic $topic)
+    {
+        \DB::table('replies')->where('topic_id', $topic->id)->delete();
     }
 }

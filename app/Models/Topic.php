@@ -47,6 +47,6 @@ class Topic extends Model
 
     public function replies()
     {
-        return $this->belongsTo(Reply::class);
+        return $this->hasMany(Reply::class);
     }
 }

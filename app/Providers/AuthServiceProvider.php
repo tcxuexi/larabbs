@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Laravel\Horizon\Horizon;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -13,8 +14,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array
      */
     protected $policies = [
-		 \App\Models\Reply::class => \App\Policies\ReplyPolicy::class,
-		 \App\Models\Topic::class => \App\Policies\TopicPolicy::class,
+        \App\Models\Reply::class => \App\Policies\ReplyPolicy::class,
+        \App\Models\Topic::class => \App\Policies\TopicPolicy::class,
         // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
@@ -29,6 +30,13 @@ class AuthServiceProvider extends ServiceProvider
         Gate::guessPolicyNamesUsing(
             function ($modelClass) {
                 return 'App\Policies\\'.class_basename($modelClass).'Policy';
+            }
+        );
+
+        Horizon::auth(
+            function ($request) {
+                //是否是站长
+                return \Auth::user()->hasRole('Founder');
             }
         );
     }

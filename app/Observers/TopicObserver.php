@@ -29,16 +29,20 @@ class TopicObserver
         // 生成话题摘录
         $topic->excerpt = make_excerpt($topic->body);
 
+        // 如slug字段无内容，及使用翻译器对title进行翻译(非redis写法)
+        // if (!$topic->slug) {
+        //     $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
+        // }
+
     }
 
     public function saved(Topic $topic)
     {
-        // 如slug字段无内容，及使用翻译器对title进行翻译
+        // 如slug字段无内容，及使用翻译器对title进行翻译（reids写法）
         if (!$topic->slug) {
-            $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
 
-            //推送任务到队列
-            // dispatch(new TranslateSlug($topic));
+            // 推送任务到队列
+            dispatch(new TranslateSlug($topic));
         }
     }
 

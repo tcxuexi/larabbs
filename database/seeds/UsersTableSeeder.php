@@ -33,17 +33,20 @@ class UsersTableSeeder extends Seeder
 
         User::insert($user_array);
 
-        $user           = User::find(1);
+        $user = User::find(1);
+        $user->assignRole('Founder');//指派1号为站长
         $user->name     = 'xuexi123';
         $user->email    = '1332543018@qq.com';
         $user->password = bcrypt('11111111');
         $user->avatar   = 'https://cdn.learnku.com/uploads/images/201710/14/1/ZqM7iaP4CR.png';
         $user->save();
         $user           = User::find(2);
+        $user->assignRole('Maintainer');//指派2号为管理员
         $user->name     = 'admin';
         $user->email    = 'xuexi1998@163.com';
         $user->password = bcrypt('11111111');
         $user->avatar   = 'https://cdn.learnku.com/uploads/images/201710/14/1/ZqM7iaP4CR.png';
         $user->save();
+
     }
 }
